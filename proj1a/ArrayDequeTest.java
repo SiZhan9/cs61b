@@ -85,8 +85,8 @@ public class ArrayDequeTest {
         lld1.addFirst(1);
         lld1.addFirst(2);
         lld1.removeFirst();
-        int returned_value = lld1.get(0);
-        System.out.println("Get: " + returned_value + "; Expected to be 1.");
+        int returnedValue = lld1.get(0);
+        System.out.println("Get: " + returnedValue + "; Expected to be 1.");
         lld1.printDeque();
         for (int i = 0; i <= 20; i++) {
             lld1.removeFirst();
