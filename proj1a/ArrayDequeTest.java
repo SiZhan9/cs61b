@@ -91,6 +91,7 @@ public class ArrayDequeTest {
         for (int i = 0; i<=20; i++){
             lld1.removeFirst();
         }
+        lld1.printDeque();
         passed = checkEmpty(false, lld1.isEmpty()) && passed;
 
     }
