@@ -72,7 +72,7 @@ public class ArrayDeque<T> {
         int newTail = tail - head;
         T[] itemsNew = (T[]) new Object[capacity];
         if (tail >= head) {
-            System.arraycopy(items, head,itemsNew, 0, tail - head + 1);
+            System.arraycopy(items, head, itemsNew, 0, tail - head + 1);
         } else {
             System.arraycopy(items, head, itemsNew, 0, items.length - head);
             System.arraycopy(items, 0, itemsNew, items.length - head, tail + 1);
