@@ -1,4 +1,4 @@
-public class ArrayDeque<T> {
+public class ArrayDeque <T> {
     //** Circular Array Method */
     private int size;
     private int nextFirst;
