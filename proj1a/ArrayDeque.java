@@ -59,15 +59,33 @@ public class ArrayDeque<T> {
             System.out.print(items[(nextFirst+1+ptr)%items.length]+ " " );
             ptr += 1;
         }
+        System.out.print("\n");
     }
     /** 1. Create a new Array with new size,
      *  2. Copy the old Array back to the new array, Use the System.arrayCopy()
      *  3. Discard the old Array.
      * */
     private void resize(){
-        int new_length = 4 * size; // The four can tune later; This can ensuare the usage larger than 0.25
+        int Head = (nextFirst + 1 + items.length)%items.length;
+        int Tail = (nextLast - 1 + items.length)%items.length;
+        int newHead = Head;
+        int newTail = Tail;
+        int new_length = 4 * size; // The four can tune later; This can ensure the usage larger than 0.25
         T[] items_new = (T[]) new Object[new_length];
-        System.arraycopy(items,0,items_new,0, size);
+        if (Tail >= Head){
+            System.arraycopy(items,Head,items_new,Head, Tail-Head+1);
+        }
+
+        else{
+            System.arraycopy(items,Head,items_new,Head,items.length - Head);
+            System.arraycopy(items,0,items_new,items.length,Tail+1);
+
+            //** Copy the old items to New items, with the head keep same */
+            //newHead = Head;
+            newTail = Tail+items.length;
+        }
+        nextFirst = (newHead - 1 + items_new.length)%items_new.length;
+        nextLast = (newTail + 1 + items_new.length)%items_new.length;
         items = items_new;
     }
 
