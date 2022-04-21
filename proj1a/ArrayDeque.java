@@ -79,6 +79,7 @@ public class ArrayDeque<T> {
         T first = items[new_nextFirst];
         items[new_nextFirst] = null;
         nextFirst = new_nextFirst;
+        size -= 1;
         return first;
     }
 
@@ -90,6 +91,7 @@ public class ArrayDeque<T> {
         T last = items[new_nextLast];
         items[new_nextLast] = null;
         nextLast = new_nextLast;
+        size -= 1;
         return last;
     }
 
