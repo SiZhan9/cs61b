@@ -72,32 +72,31 @@ public class LinkedListDeque<T> {
 
     public T removeFirst(){
         TNode p = sentinel.next;
-        sentinel.next = p.next;
-        p.next.previous = p.previous;
-        size -= 1;
+        if(p != sentinel){
+            sentinel.next = p.next;
+            p.next.previous = p.previous;
+            size -= 1;
+            }
         return p.item;
     }
 
     public T removeLast(){
         TNode p = sentinel.previous;
-        sentinel.previous = p.previous;
-        p.previous.next = sentinel;
-        size -= 1;
+        if (p != sentinel){
+            sentinel.previous = p.previous;
+            p.previous.next = sentinel;
+            size -= 1;}
         //   first_Node.next.next = sentinel;
         return p.item;
     }
 
     public T get(int index){
-        if (sentinel.next == sentinel.previous){
-            return null;
-        }else {
-            TNode p = sentinel.next;
-            while(p.next!= sentinel && index!=0){
-                index--;
-                p = p.next;
-            }
-            return  p.item;
+        TNode p = sentinel;
+        while(p.next!= sentinel && index>=0){
+            p = p.next;
+            index--;
         }
+        return  p.item;
     }
 
     public T getRecursive(int index) {
