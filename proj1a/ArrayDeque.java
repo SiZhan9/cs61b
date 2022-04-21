@@ -26,7 +26,7 @@ public class ArrayDeque<T> {
     */
     public void addFirst(T item){
         if (size >= items.length - 1) {
-            resize();
+            resize(3*size);
         }
         items[nextFirst] = item;
         nextFirst = (nextFirst - 1 + items.length)%items.length;
@@ -35,7 +35,7 @@ public class ArrayDeque<T> {
 
     public void addLast(T item){
         if (size >= items.length - 1) {
-            resize();
+            resize(3*size);
         }
         items[nextLast] = item;
         nextLast = (nextLast+1)%items.length;
@@ -65,24 +65,24 @@ public class ArrayDeque<T> {
      *  2. Copy the old Array back to the new array, Use the System.arrayCopy()
      *  3. Discard the old Array.
      * */
-    private void resize(){
+    private void resize(int capacity){
         int Head = (nextFirst + 1 + items.length)%items.length;
         int Tail = (nextLast - 1 + items.length)%items.length;
-        int newHead = Head;
-        int newTail = Tail;
-        int new_length = 4 * size; // The four can tune later; This can ensure the usage larger than 0.25
+        int newHead = 0;
+        int newTail = Tail - Head;
+        int new_length = capacity; // The four can tune later; This can ensure the usage larger than 0.25
         T[] items_new = (T[]) new Object[new_length];
         if (Tail >= Head){
-            System.arraycopy(items,Head,items_new,Head, Tail-Head+1);
+            System.arraycopy(items,Head,items_new,0, Tail-Head+1);
         }
 
         else{
-            System.arraycopy(items,Head,items_new,Head,items.length - Head);
-            System.arraycopy(items,0,items_new,items.length,Tail+1);
+            System.arraycopy(items,Head,items_new,0,items.length - Head);
+            System.arraycopy(items,0,items_new,items.length - Head,Tail+1);
 
-            //** Copy the old items to New items, with the head keep same */
+            //** Copy the old items to New items, with the head to be zero */
             //newHead = Head;
-            newTail = Tail+items.length;
+            newTail = Tail + items.length - Head;
         }
         nextFirst = (newHead - 1 + items_new.length)%items_new.length;
         nextLast = (newTail + 1 + items_new.length)%items_new.length;
@@ -90,8 +90,11 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst(){
-        if (size<=0){
+        if (size <= 0){
             return null;
+        }
+        if (size <= 0.3*items.length){
+            resize(size*2);
         }
         int new_nextFirst = (nextFirst + 1 + items.length)%items.length;
         T first = items[new_nextFirst];
@@ -102,8 +105,11 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast(){
-        if (size<=0){
+        if (size <= 0){
             return null;
+        }
+        if (size<=0.3*items.length){
+            resize(size*2);
         }
         int new_nextLast = (nextLast - 1 + items.length)%items.length;
         T last = items[new_nextLast];
@@ -117,7 +123,7 @@ public class ArrayDeque<T> {
         if (index>size) {
             return null;
         }else{
-            int array_index = (nextLast - 1 + index + items.length)%items.length;
+            int array_index = (nextFirst + 1 + index + items.length)%items.length;
             return items[array_index];
         }
     }
