@@ -79,16 +79,16 @@ public class ArrayDequeTest {
         passed = checkEmpty(true, lld1.isEmpty()) && passed;
 
         printTestStatus(passed);
-        for (int i = 0; i<=50; i++){
-            lld1.addFirst(2*i);
+        for (int i = 0; i <= 50; i++) {
+            lld1.addFirst(2 * i);
         }
         lld1.addFirst(1);
         lld1.addFirst(2);
         lld1.removeFirst();
         int returned_value = lld1.get(0);
-        System.out.println("Get: "+ returned_value + "; Expected to be 1.");
+        System.out.println("Get: " + returned_value + "; Expected to be 1.");
         lld1.printDeque();
-        for (int i = 0; i<=20; i++){
+        for (int i = 0; i <= 20; i++) {
             lld1.removeFirst();
         }
         lld1.printDeque();

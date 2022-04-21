@@ -1,4 +1,4 @@
-public class ArrayDeque <T> {
+public class ArrayDeque<T> {
     //** Circular Array Method */
     private int size;
     private int nextFirst;
@@ -56,7 +56,7 @@ public class ArrayDeque <T> {
     public void printDeque() {
         int ptr = 0;
         while (ptr < size) {
-            System.out.print(items[(nextFirst + 1 + ptr) % items.length] + " " );
+            System.out.print( items[ (nextFirst + 1 + ptr) % items.length ] + " ");
             ptr += 1;
         }
         System.out.print("\n");
@@ -70,18 +70,19 @@ public class ArrayDeque <T> {
         int tail = (nextLast - 1 + items.length) % items.length;
         int newHead = 0;
         int newTail = tail - head;
-        int new_length = capacity;
-        T[] items_new = (T[]) new Object[new_length];
+        T[] items_new = (T[]) new Object[capacity];
         if (tail >= head) {
-            System.arraycopy(items, head,items_new, 0, tail-head+1);
+            System.arraycopy(items, head,items_new, 0, tail - head + 1);
         }
 
         else{
             System.arraycopy(items, head, items_new, 0, items.length - head);
-            System.arraycopy(items, 0, items_new, items.length - head, tail+1);
+            System.arraycopy(items, 0, items_new, items.length - head, tail + 1);
 
-            //** Copy the old items to New items, with the head to be zero */
-            //newHead = Head;
+            /*
+            ** Copy the old items to New items, with the head to be zero * /
+            newHead = Head;
+            */
             newTail = tail + items.length - head;
         }
         nextFirst = (newHead - 1 + items_new.length) % items_new.length;
@@ -93,13 +94,13 @@ public class ArrayDeque <T> {
         if (size <= 0) {
             return null;
         }
-        if (size <= 0.3 * items.length){
+        if (size <= 0.3 * items.length) {
             resize(size * 2);
         }
-        int new_nextFirst = (nextFirst + 1 + items.length)%items.length;
-        T first = items[new_nextFirst];
-        items[new_nextFirst] = null;
-        nextFirst = new_nextFirst;
+        int newNextFirst = (nextFirst + 1 + items.length)%items.length;
+        T first = items[newNextFirst];
+        items[newNextFirst] = null;
+        nextFirst = newNextFirst;
         size -= 1;
         return first;
     }
@@ -108,19 +109,19 @@ public class ArrayDeque <T> {
         if (size <= 0) {
             return null;
         }
-        if (size<=0.3 * items.length){
+        if (size <= 0.3 * items.length){
             resize(size * 2);
         }
-        int new_nextLast = (nextLast - 1 + items.length) % items.length;
-        T last = items[new_nextLast];
-        items[new_nextLast] = null;
-        nextLast = new_nextLast;
+        int newNextLast = (nextLast - 1 + items.length) % items.length;
+        T last = items[newNextLast];
+        items[newNextLast] = null;
+        nextLast = newNextLast;
         size -= 1;
         return last;
     }
 
     public T get(int index) {
-        if (index>size) {
+        if (index > size) {
             return null;
         } else {
             int array_index = (nextFirst + 1 + index + items.length) % items.length;
