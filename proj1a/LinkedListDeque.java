@@ -24,23 +24,29 @@ public class LinkedListDeque<T> {
     public LinkedListDeque(){
         size = 0;
         sentinel = new TNode(null,null,null);
-        sentinel.next = sentinel.previous;
+        sentinel.next = sentinel;
+        sentinel.previous = sentinel;
     }
 
     /** Create a real first item */
     public LinkedListDeque(T i){
         sentinel = new TNode(null,null,null);
         sentinel.next = new TNode(i ,sentinel, sentinel);
+        sentinel.previous = sentinel.next;
         size = 1;
     }
 
     public void addFirst(T item){
-        sentinel.next = new TNode(item, sentinel.next, sentinel);
+        TNode first_ptr = sentinel.next;
+        sentinel.next = new TNode(item, first_ptr, sentinel);
+        first_ptr.previous = sentinel.next;
         size += 1;
     }
 
     public void addLast(T item){
-        sentinel.previous = new TNode(item, sentinel, sentinel.previous);
+        TNode last_ptr = sentinel.previous;
+        sentinel.previous = new TNode(item, sentinel, last_ptr);
+        last_ptr.next = sentinel.previous;
         size += 1;
     }
 
@@ -57,38 +63,28 @@ public class LinkedListDeque<T> {
     }
 
     public void printDeque(){
-        if (isEmpty()){
-            return;
-        }
-        TNode p = sentinel.next;
-        while(p.next!= null){
+        TNode p = sentinel;
+        while(p.next!= sentinel){
+            p =p.next;
             System.out.print(p.item + " ");
-            p = p.next;
         }
     }
 
     public T removeFirst(){
-        if (sentinel.next == sentinel.previous){
-            return null;
-        }else {
-            TNode first_Node = sentinel.next;
-            sentinel.next = first_Node.next;
-            size -= 1;
-         //   first_Node.next.next = sentinel;
-            return first_Node.item;
-        }
+        TNode p = sentinel.next;
+        sentinel.next = p.next;
+        p.next.previous = p.previous;
+        size -= 1;
+        return p.item;
     }
 
     public T removeLast(){
-        if (sentinel.next == sentinel.previous){
-            return null;
-        }else {
-            TNode last_Node = sentinel.previous;
-            sentinel.previous = last_Node.previous;
-            size -= 1;
-            //   first_Node.next.next = sentinel;
-            return last_Node.item;
-        }
+        TNode p = sentinel.previous;
+        sentinel.previous = p.previous;
+        p.previous.next = sentinel;
+        size -= 1;
+        //   first_Node.next.next = sentinel;
+        return p.item;
     }
 
     public T get(int index){
